@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок: Програмування LEGO Mindstorms (Python)</title>
+    <style>
+        body {
+            font-family: 'Verdana', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(135deg, #009688, #00796b);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .step-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-left: 6px solid #009688;
+        }
+        h1 { margin: 0; }
+        h2 { color: #00796b; margin-top: 0; }
+        h3 { color: #444; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        
+        /* Code styling */
+        pre {
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
+            border: 1px solid #333;
+        }
+        .comment { color: #6a9955; }
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .number { color: #b5cea8; }
+        .class-name { color: #4ec9b0; }
+
+        .explanation {
+            background-color: #e0f2f1;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+        .icon { font-size: 1.5em; vertical-align: middle; margin-right: 10px; }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🤖 Програмування Mindstorms: Базові команди</h1>
+    <p>Клас: 7 | Мова: Python | Робот: MVP</p>
+</header>
+
+<div class="container">
+
+    <div class="step-card">
+        <h2>1. Підключення до "Мозку" (Hub)</h2>
+        <p>Перш ніж віддавати команди, ми повинні звернутися до головного блоку робота.</p>
+        
+        <pre>
+<span class="keyword">from</span> mindstorms <span class="keyword">import</span> MSHub
+
+<span class="comment"># Ініціалізуй вузол.</span>
+hub = <span class="class-name">MSHub</span>()
+        </pre>
+        
+        <div class="explanation">
+            <span class="icon">🧠</span> <strong>Що це означає?</strong><br>
+            Команда <code>hub = MSHub()</code> створює програмний зв'язок з фізичним контролером. Тепер через змінну <code>hub</code> ми можемо керувати екраном, звуком та кнопками на самому блоці.
+        </div>
+    </div>
+
+    <div class="step-card">
+        <h2>2. Налаштування портів</h2>
+        <p>Робот має знати, що і куди підключено. У нашому роботі MVP зазвичай мотори для руху — це B і C, а башта — A.</p>
+        
+        <pre>
+<span class="comment"># Ініціалізуй вузол.</span>
+hub = <span class="class-name">MSHub</span>()
+
+<span class="comment"># Ініціалізуй двигуни, підключені до портів A та B.</span>
+<span class="comment"># (Для нашого MVP: A - башта, B - ліве колесо)</span>
+motor_a = <span class="class-name">Motor</span>(<span class="string">'A'</span>)
+motor_b = <span class="class-name">Motor</span>(<span class="string">'B'</span>)
+
+<span class="comment"># Ініціалізуй датчик кольору, підключений до порту C.</span>
+color_sensor = <span class="class-name">ColorSensor</span>(<span class="string">'C'</span>)
+
+<span class="comment"># Ініціалізуй датчик відстані, підключений до порту D.</span>
+distance_sensor = <span class="class-name">DistanceSensor</span>(<span class="string">'D'</span>)
+        </pre>
+
+        <div class="explanation">
+            <span class="icon">🔌</span> <strong>Важливо:</strong><br>
+            Літери в дужках <code>('A')</code> повинні відповідати літерам на корпусі робота, куди ви вставили кабелі.
+        </div>
+    </div>
+
+    <div class="step-card">
+        <h2>3. Рух за часом (Просто їхати)</h2>
+        <p>Найпростіший спосіб змусити робота рухатись — ввімкнути мотори на певний час.</p>
+
+        <pre>
+<span class="comment"># Імпортуй клас «Motor».</span>
+<span class="keyword">from</span> mindstorms <span class="keyword">import</span> Motor
+
+<span class="comment"># Ініціалізуй двигун, підключений до портів A.</span>
+motor = <span class="class-name">Motor</span>(<span class="string">'A'</span>)
+
+<span class="comment"># Обертай за годинниковою стрілкою протягом 2 секунд із 75% швидкістю.</span>
+motor.run_for_seconds(<span class="number">2.0</span>, <span class="number">75</span>)
+        </pre>
+
+        <div class="explanation">
+            <span class="icon">⏱️</span> <strong>Параметри:</strong><br>
+            <ul>
+                <li><code>2.0</code> — час у секундах.</li>
+                <li><code>75</code> — потужність (швидкість). Якщо написати <code>-75</code>, мотор крутитиметься у зворотний бік.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <h2>4. Точний рух (Градуси)</h2>
+        <p>Коли треба повернути робота рівно на 90 градусів або підняти башту точно вгору, ми використовуємо градуси.</p>
+
+        <pre>
+<span class="comment"># Імпортуй клас «Motor».</span>
+<span class="keyword">from</span> mindstorms <span class="keyword">import</span> Motor
+
+<span class="comment"># Ініціалізуй двигун, підключений до порту A.</span>
+motor = <span class="class-name">Motor</span>(<span class="string">'A'</span>)
+
+<span class="comment"># Оберни двигун на 360 градусів за годинниковою стрілкою.</span>
+motor.run_for_degrees(<span class="number">360</span>)
+        </pre>
+
+        <div class="explanation">
+            <span class="icon">📐</span> <strong>Математика робота:</strong><br>
+            360 градусів = 1 повний оберт колеса. <br>
+            Для башти це ідеально: ми точно знаємо, наскільки вона повернеться.
+        </div>
+    </div>
+
+    <div class="step-card">
+        <h2>5. Розумна позиція (Для башти)</h2>
+        <p>Це найкрутіша команда для механізмів. Ми можемо сказати мотору повернутися у "нульову" точку, незалежно від того, де він зараз.</p>
+
+        <pre>
+<span class="comment"># Імпортуй клас «Motor».</span>
+<span class="keyword">from</span> mindstorms <span class="keyword">import</span> Motor
+<span class="keyword">from</span> mindstorms.control <span class="keyword">import</span> wait_for_seconds
+
+<span class="comment"># Ініціалізуй двигун (наприклад, башта).</span>
+motor = <span class="class-name">Motor</span>(<span class="string">'A'</span>)
+
+<span class="comment"># Переведи двигун в положення «0» із вирівнюванням маркерів.</span>
+<span class="comment"># 'shortest path' означає, що робот сам вирішить, куди ближче крутити - вліво чи вправо.</span>
+motor.run_to_position(<span class="number">0</span>, <span class="string">'shortest path'</span>, <span class="number">75</span>)
+
+<span class="comment"># Чекаємо 1 секунду</span>
+wait_for_seconds(<span class="number">1</span>)
+
+<span class="comment"># Повертаємо башту на 90 градусів (вбік)</span>
+motor.run_to_position(<span class="number">90</span>, <span class="string">'clockwise'</span>, <span class="number">100</span>)
+        </pre>
+
+        <div class="explanation">
+            <span class="icon">🎯</span> <strong>Завдання:</strong><br>
+            Використайте цей код для башти. Встановіть її рівно (це буде "0"). Запустіть програму. Спробуйте рукою збити башту вбік і знову запустіть програму — вона сама повернеться в центр!
+        </div>
+    </div>
+
+    <div>
+        <a href="./def.html">Попередній урок</a>
+        <a href="#">Наступний урок</a>
+    </div>
+
+</div>
+
+</body>
+</html>
