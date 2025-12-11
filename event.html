@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Квест Тіма VI: Реагування на Події (onkey, onclick)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        /* Стилізація: Темний фон, м'які сині та зелені акценти */
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background-color: #2c3e50; /* Темно-сірий/синій */
+            color: #ecf0f1; /* Світлий, м'який текст */
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            border: 5px solid #3498db; /* М'який синій акцент */
+            padding: 25px;
+            background-color: #34495e; /* Трохи світліший фон вмісту */
+            box-shadow: 0 0 20px #3498db;
+            border-radius: 8px;
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            color: #f1c40f; /* Золотий акцент */
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        h2 {
+            font-family: 'Press Start 2P', cursive;
+            color: #2ecc71; /* Зелений акцент */
+            font-size: 18px;
+            margin-top: 35px;
+            padding-left: 10px;
+            border-left: 5px solid #f1c40f;
+        }
+        
+        h3 {
+             color: #f1c40f;
+             font-size: 16px;
+             margin-top: 20px;
+        }
+
+        /* Кнопка */
+        .interpreter-link {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .interpreter-link a {
+            font-family: 'Press Start 2P', cursive;
+            display: inline-block;
+            background-color: #e67e22; /* Оранжевий */
+            color: #ffffff;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: 0 5px #d35400;
+            transition: all 0.1s;
+        }
+
+        .interpreter-link a:hover {
+            background-color: #d35400;
+            box-shadow: 0 3px #a04000;
+            transform: translateY(2px);
+        }
+
+        /* Таблиця */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .info-table th, .info-table td {
+            border: 1px solid #78909c;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .info-table th {
+            background-color: #455a64;
+            color: #f1c40f;
+        }
+        
+        .code-block {
+            background-color: #21303d; 
+            color: #90ee90;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            font-size: 15px;
+        }
+
+        .code-keyword {
+            color: #ffb380;
+            font-weight: bold;
+        }
+        
+        /* Завдання */
+        .task-item {
+            background-color: #3d556e;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 5px solid #e74c3c;
+            border-radius: 5px;
+        }
+
+        .self-check {
+            margin-top: 15px;
+            border-top: 2px dashed #e74c3c;
+            padding-top: 10px;
+            color: #2ecc71; 
+        }
+
+        .self-check ul {
+            list-style: none; /* Прибираємо маркери для чистоти */
+            padding: 0;
+        }
+
+        .self-check li {
+            list-style: square; /* Додаємо квадратні маркери через CSS */
+            margin-left: 20px;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🐢 Квест Тіма VI: Реагування на Події ⚡</h1>
+    <p style="text-align: center; color: #2ecc71;">Привіт, програмісте! Я Тім! Сьогодні ти навчишся змушувати програму <strong>реагувати</strong> на дії користувача: натискання клавіш та кліки мишкою. Це називається <strong>Обробка Подій (Event Handling)</strong>! Ти створиш свій перший інтерактивний додаток!</p>
+
+    <hr style="border-top: 1px dashed #3498db;">
+
+    <h2>1. Теорія від Тіма: Уважне Вікно</h2>
+    
+    <p>Щоб програма реагувала на твої дії, їй потрібні "вуха". У `turtle` ми використовуємо об'єкт вікна (екрана) для цього.</p>
+
+    <h3>🔑 Ключові Команди та Їхня Роль:</h3>
+    <table class="info-table">
+        <thead>
+            <tr>
+                <th>Команда</th>
+                <th>Призначення</th>
+                <th>Приклад</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>screen.listen()</code></td>
+                <td><strong>Обов'язково</strong> активує прослуховування клавіатури.</td>
+                <td><code>wn.listen()</code></td>
+            </tr>
+            <tr>
+                <td><code>screen.onkey(функція, "Клавіша")</code></td>
+                <td>Призначає, яка функція виконається, коли натиснуто клавішу.</td>
+                <td><code>wn.onkey(go_forward, "Up")</code></td>
+            </tr>
+             <tr>
+                <td><code>screen.onclick(функція)</code></td>
+                <td>Призначає функцію, яка виконається після <strong>кліка миші</strong>.</td>
+                <td><code>wn.onclick(draw_point)</code></td>
+            </tr>
+             <tr>
+                <td><code>t.setheading(кут)</code></td>
+                <td>Поворот черепашки на <strong>абсолютний</strong> кут (90=Північ, 270=Південь).</td>
+                <td><code>t.setheading(90)</code></td>
+            </tr>
+            <tr>
+                <td><code>turtle.mainloop()</code></td>
+                <td>Очікує на події. <strong>Залишає вікно відкритим</strong>.</td>
+                <td><code>turtle.mainloop()</code></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <p style="color: #e74c3c; font-weight: bold;">Важливо: Функції, призначені на клавіші (<code>.onkey()</code>), <strong>не повинні мати аргументів</strong>.</p>
+    
+    <div class="code-block">
+        <code class="code-keyword">def</code> go_forward():<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;t.forward(50)<br>
+        <br>
+        wn.onkey(go_forward, "space") <code class="code-comment"># Призначаємо функцію без дужок!</code>
+    </div>
+    
+    <hr style="border-top: 1px dashed #3498db;">
+
+    <h2>2. Практична Робота: Створення Інтерактивного Помічника</h2>
+
+    <div class="interpreter-link">
+        <p style="color: #f1c40f;">Запусти свій <strong>Командний Центр Python</strong>:</p>
+        <a href="https://yepython.pp.ua/" target="_blank">
+            Запустити Python-Інтерпретатор
+        </a>
+    </div>
+
+    <ul style="list-style: none; padding: 0;">
+        <li class="task-item">
+            <h3>🥇 Завдання А: Керування Рухом Тіма (Клавіатура)</h3>
+            <p>Створи просту гру-руханку. Тім повинен реагувати на клавіші-стрілки ("Up", "Down").</p>
+            <ol>
+                <li><strong>Налаштування:</strong> Створи об'єкти екрана (<code>wn</code>) та черепашки (<code>t</code>).</li>
+                <li><strong>Функції Руху:</strong> Визнач функції <code>move_up()</code> (напрямок 90) та <code>move_down()</code> (напрямок 270), кожна з яких рухає Тіма на 30 кроків.</li>
+                <li><strong>Призначення:</strong> Признач <code>move_up</code> на клавішу "Up", а <code>move_down</code> на "Down".</li>
+                <li><strong>Запуск:</strong> Використовуй <code>wn.listen()</code> та <code>turtle.mainloop()</code> (в кінці).</li>
+            </ol>
+        </li>
+
+        <li class="task-item">
+            <h3>🥈 Завдання Б: Простий Paint (Клік мишею та Зміна Фігури)</h3>
+            <p>Додай функціональність для малювання кіл та зміни кольору за кліком.</p>
+            <ol>
+                <li><strong>Функція Кліка (Зміна кольору):</strong> Визнач функцію <code>change_color(x, y)</code> (з аргументами!) і всередині встановіть колір черепашки на "red".</li>
+                <li><strong>Функція Малювання:</strong> Визнач функцію <code>draw_circle()</code> (без аргументів), яка змусить Тіма намалювати коло (<code>t.circle(20)</code>).</li>
+                <li><strong>Призначення:</strong> Признач <code>change_color</code> на клік мишею: <code>wn.onclick(change_color)</code>.</li>
+                <li><strong>Призначення:</strong> Признач <code>draw_circle</code> на клавішу "space" (Пробіл).</li>
+            </ol>
+        </li>
+    </ul>
+
+    <hr style="border-top: 1px dashed #3498db;">
+
+    <h3>🔍 Контрольні Питання від Тіма (Самоперевірка)</h3>
+    <div class="self-check">
+        <ul>
+            <li>Навіщо потрібна команда <code>wn.listen()</code>?</li>
+            <li>Чому функція <code>move_up</code> (для клавіші) не може мати аргументів?</li>
+            <li>Чи спрацює обробник подій, якщо ти забудеш команду <code>turtle.mainloop()</code> в кінці?</li>
+        </ul>
+    </div>
+    
+    <div style="text-align: center; margin-top: 30px; padding: 15px; background-color: #3d556e; border-radius: 5px;">
+        <p style="font-size: 20px; color: #f1c40f; font-family: 'Press Start 2P', cursive;">Тім Каже:</p>
+        <p style="color: #ecf0f1;">Ти навчився створювати інтерактивні програми! Тепер твої додатки можуть реагувати на користувача, як справжні ігри!</p>
+    </div>
+
+    <div>
+        <a href="./lego_robots.html">Попередній урок</a>
+        <a href="#">Наступний урок</a>
+    </div>
+
+</div>
+
+</body>
+</html>
