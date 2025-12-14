@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Квест Тіма VII: Магія Дотику</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        /* Стилізація: Космічна тема (Темно-фіолетовий + Неон) */
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background-color: #1a0b2e; /* Глибокий фіолетовий */
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            border: 4px solid #00d2ff; /* Неоновий блакитний */
+            padding: 25px;
+            background-color: #25103f;
+            box-shadow: 0 0 25px #00d2ff;
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            color: #ff00ff; /* Неоновий рожевий */
+            text-align: center;
+            border-bottom: 3px solid #00d2ff;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 24px;
+            text-shadow: 3px 3px #000;
+        }
+
+        h2 {
+            font-family: 'Press Start 2P', cursive;
+            color: #00d2ff;
+            font-size: 18px;
+            margin-top: 40px;
+            padding-left: 15px;
+            border-left: 6px solid #ff00ff;
+        }
+
+        h3 {
+             color: #ffae00; /* Помаранчевий */
+             font-size: 18px;
+             margin-top: 25px;
+        }
+
+        /* Кнопка */
+        .interpreter-link {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .interpreter-link a {
+            font-family: 'Press Start 2P', cursive;
+            display: inline-block;
+            background-color: #ff00ff;
+            color: #ffffff;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            border: 2px solid #fff;
+            box-shadow: 0 5px #a100a1;
+            transition: all 0.1s;
+        }
+
+        .interpreter-link a:hover {
+            background-color: #d100d1;
+            transform: translateY(3px);
+            box-shadow: 0 2px #a100a1;
+        }
+
+        /* Код */
+        .code-block {
+            background-color: #0d0221; 
+            color: #00ff9d; /* Яскраво-зелений код */
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            font-size: 15px;
+            border: 1px solid #4a148c;
+        }
+
+        .code-keyword { color: #ffae00; font-weight: bold; } /* def, import */
+        .code-func { color: #00d2ff; } /* назви функцій */
+        .code-comment { color: #9e9e9e; font-style: italic; }
+
+        /* Завдання */
+        .task-item {
+            background-color: #2d1b4e;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid #4a148c;
+            border-radius: 8px;
+        }
+
+        .task-item:hover {
+            border-color: #ff00ff;
+        }
+
+        /* Список */
+        ul, ol {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+
+        .self-check {
+            background-color: #150024;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 5px solid #00ff9d;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🐢 Квест Тіма VII: Магія Дотику 🖱️</h1>
+    <p style="text-align: center; font-size: 18px;"><strong>Привіт! Знову Тім на зв'язку!</strong><br>
+    Минулого разу ми вчилися натискати кнопки. Сьогодні ми зробимо дещо крутіше: навчимося <strong>телепортуватися</strong> в місце кліка та <strong>малювати</strong>, просто тягнучи черепашку мишкою! Готовий?</p>
+
+    <div class="interpreter-link">
+        <a href="https://yepython.pp.ua/" target="_blank">
+            Відкрити Python 🐍
+        </a>
+    </div>
+
+    <!-- 1. Теоретичний Блок -->
+    <h2>1. Теорія: Екран як Полотно</h2>
+    
+    <p>Уяви, що екран комп'ютера — це сенсорна панель. Коли ти торкаєшся її мишкою, комп'ютер точно знає координати <strong>X</strong> та <strong>Y</strong> цього місця.</p>
+
+    <h3>🔹 Команда 1: onscreenclick (Клік по екрану)</h3>
+    <p>Ця команда каже: "Якщо хтось клікне <strong>будь-де</strong> на фоні, виконай цю функцію".</p>
+    <p><strong>Важливо:</strong> Функція, яку ти створюєш для кліка, <strong>ОБОВ'ЯЗКОВО</strong> повинна приймати два числа (x, y). Python сам покладе туди координати кліка.</p>
+
+    <div class="code-block">
+<span class="code-keyword">import</span> turtle
+
+wn = turtle.Screen()
+t = turtle.Turtle()
+t.shape("turtle")
+
+<span class="code-comment"># Ця функція приймає x та y, бо так працюють кліки</span>
+<span class="code-keyword">def</span> <span class="code-func">teleport</span>(x, y):
+    t.penup()       <span class="code-comment"># Підняти перо, щоб не малювати лінію</span>
+    t.goto(x, y)    <span class="code-comment"># Телепортуватися в точку кліка</span>
+    t.pendown()     <span class="code-comment"># Опустити перо</span>
+
+<span class="code-comment"># Головна команда: слухаємо клік по екрану</span>
+wn.onscreenclick(teleport)
+
+turtle.mainloop()
+    </div>
+
+    <h3>🔹 Команда 2: ondrag (Тягнути черепашку)</h3>
+    <p>Ця команда працює, коли ти <strong>затискаєш</strong> ліву кнопку миші на черепашці і починаєш її рухати. Це ідеально для малювання!</p>
+
+    <div class="code-block">
+<span class="code-keyword">import</span> turtle
+
+wn = turtle.Screen()
+t = turtle.Turtle()
+t.speed(0) <span class="code-comment"># Найшвидша швидкість для плавного малювання</span>
+
+<span class="code-comment"># Функція просто йде туди, де зараз мишка</span>
+<span class="code-keyword">def</span> <span class="code-func">paint</span>(x, y):
+    t.goto(x, y)
+
+<span class="code-comment"># Команда ondrag застосовується до Черепашки (t), а не до екрана (wn)</span>
+t.ondrag(paint)
+
+turtle.mainloop()
+    </div>
+
+    <hr style="border-top: 1px dashed #00d2ff; margin: 30px 0;">
+
+    <!-- 2. Практична Робота -->
+    <h2>2. Практика: Обери Свій Шлях</h2>
+    <p style="color: #ffae00; text-align: center;">Обери <strong>ОДНЕ</strong> завдання, яке тобі найбільше подобається, і виконай його.</p>
+
+    <!-- Завдання 1 -->
+    <div class="task-item">
+        <h3>🟢 Завдання А (Легке): "Телепорт"</h3>
+        <p>Створи програму, де черепашка миттєво стрибає туди, де ти клікнув на екрані.</p>
+        <ol>
+            <li>Підключи бібліотеку <code>turtle</code>, створи екран та черепашку.</li>
+            <li>Створи функцію <code>move_here(x, y)</code>.</li>
+            <li>Всередині функції використай команду <code>t.goto(x, y)</code>.</li>
+            <li>Підключи цю функцію до кліка по екрану: <code>wn.onscreenclick(move_here)</code>.</li>
+            <li>Запусти програму і поклацай в різних кутках!</li>
+        </ol>
+    </div>
+
+    <!-- Завдання 2 -->
+    <div class="task-item">
+        <h3>🟡 Завдання Б (Середнє): "Художник"</h3>
+        <p>Створи програму для вільного малювання, як у Paint.</p>
+        <ol>
+            <li>Створи функцію <code>draw(x, y)</code>, яка використовує <code>t.goto(x, y)</code>.</li>
+            <li>Зроби черепашку жирнішою: <code>t.width(5)</code>.</li>
+            <li>Зміни колір на свій улюблений.</li>
+            <li>Використай команду <code>t.ondrag(draw)</code>.</li>
+            <li><strong>Спробуй:</strong> Намалюй своє ім'я, затиснувши кнопку миші на черепашці.</li>
+        </ol>
+    </div>
+
+    <!-- Завдання 3 -->
+    <div class="task-item">
+        <h3>🔴 Завдання В (Творче): "Клік-Штамп"</h3>
+        <p>Зроби так, щоб при кліку черепашка не просто йшла, а ставила відбиток (штамп).</p>
+        <ol>
+            <li>Створи власну функцію <code>make_stamp(x, y)</code>.</li>
+            <li>В ній спочатку перемісти черепашку: <code>t.penup()</code>, потім <code>t.goto(x, y)</code>.</li>
+            <li>Потім намалюй щось (квадрат, коло, зірочку).</li>
+            <li>Підключи функцію через <code>wn.onscreenclick(make_stamp)</code>.</li>
+            <li><strong>Результат:</strong> Клікай по екрану і залишай сліди черепашок всюди!</li>
+        </ol>
+    </div>
+
+    <hr style="border-top: 1px dashed #00d2ff; margin: 30px 0;">
+
+    <!-- 3. Питання -->
+    <h2>3. Самоперевірка</h2>
+    <div class="self-check">
+        <p>Спробуй відповісти сам собі (підглядати в теорію можна!):</p>
+        <ul>
+            <li>Чому наші функції (наприклад, <code>teleport</code>) обов'язково повинні мати в дужках <code>(x, y)</code>? (Бо комп'ютер намагається передати туди координати).</li>
+            <li>Яка різниця між <code>onscreenclick</code> та <code>ondrag</code>? (Перше — це одиночний "тик" по фону, друге — це "тягнути" саму черепашку).</li>
+            <li>Що станеться, якщо не написати <code>turtle.mainloop()</code> в кінці? (Вікно може миттєво закритися).</li>
+        </ul>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px;">
+        <p style="color: #ff00ff; font-weight: bold;">Успіхів у кодуванні!</p>
+    </div>
+
+    <div>
+        <a href="./event.html">Попередній урок</a>
+        <a href="#">Наступний урок</a>
+    </div>
+
+</div>
+
+</body>
+</html>
